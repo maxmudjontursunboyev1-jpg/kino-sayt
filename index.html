@@ -4,12 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kino Movie</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background:#020617; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbyUDWrExEQwp8kfOzBRS610_BbCeoyA3PtRJPq0G-e7mtEzTvjAaKVUoJBNxvOTNKzD/exec"></iframe>
+    <iframe src="https://script.google.com/macros/s/AKfycbxj2uJF6n5cP-Em8wkgKZQIwVEfgVjowfL3U05dPz5D6IJp5qswBpCHSTQr6Z5N78A5/exec"></iframe>
+
+    <script>
+        const tg = window.Telegram && window.Telegram.WebApp;
+        try { if (tg) { tg.ready(); tg.expand(); } } catch (e) {}
+
+        /* Ichki saytdan (Apps Script) kelgan "botni och" xabarini qabul qiladi */
+        window.addEventListener("message", function (event) {
+            const okOrigin =
+                event.origin === "https://script.google.com" 
+                /\.googleusercontent\.com$/.test(new URL(event.origin).hostname);
+            if (!okOrigin) return;
+
+            const d = event.data;
+            if (!d  d.type !== "openBot" || typeof d.url !== "string") return;
+            if (!d.url.startsWith("https://t.me/Responder_ai_bot")) return;
+
+            try {
+                if (tg && tg.openTelegramLink) tg.openTelegramLink(d.url);
+                else window.location.href = d.url;
+            } catch (e) {
+                window.location.href = d.url;
+            }
+        });
+    </script>
 </body>
 </html>
